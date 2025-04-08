@@ -23,3 +23,12 @@ jobs:
 
       - name: Run tests
         run: pytest
+
+      - name: Build artifact
+        run: python setup.py sdist
+
+      - name: Upload artifact to JFrog
+        run: |
+          curl -u "${{ secrets.JFROG_USERNAME }}:${{ secrets.JFROG_API_KEY }}" \
+          -T dist/*.tar.gz \
+          "https://python-artifactory-generic-local.jfrog.io/artifactory/python-artifacts/"
